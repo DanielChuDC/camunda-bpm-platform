@@ -37,7 +37,7 @@ import static org.camunda.bpm.engine.impl.jobexecutor.historycleanup.HistoryClea
 /**
  * @author Tassilo Weidner
  */
-public class CompetingHistoryCleanupAcquisitionTest extends ConcurrencyTestCase {
+public class CompetingHistoryCleanupAcquisitionTest extends ConcurrencyTest {
 
   protected final Date CURRENT_DATE = new Date(1363608000000L);
 
