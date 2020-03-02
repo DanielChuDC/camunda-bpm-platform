@@ -16,21 +16,21 @@
  */
 package org.camunda.bpm.engine.impl.batch;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.entry;
+
+import java.util.Map;
+
 import ch.qos.logback.classic.Level;
 import org.camunda.bpm.engine.ProcessEngine;
-import org.camunda.bpm.engine.ProcessEngineConfiguration;
 import org.camunda.bpm.engine.batch.Batch;
 import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
+import org.camunda.bpm.engine.test.util.ProcessEngineProvider;
 import org.camunda.commons.testing.ProcessEngineLoggingRule;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.util.Map;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.entry;
 
 public class BatchInvocationsPerJobByBatchTypeConfigTest {
 
@@ -49,8 +49,7 @@ public class BatchInvocationsPerJobByBatchTypeConfigTest {
 
   @Before
   public void setup() {
-    processEngine = ProcessEngineConfiguration
-        .createProcessEngineConfigurationFromResource(PROCESS_ENGINE_CONFIG)
+    processEngine = ProcessEngineProvider.createConfigurationFromResource(PROCESS_ENGINE_CONFIG)
         .buildProcessEngine();
 
     engineConfiguration =

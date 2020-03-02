@@ -76,7 +76,6 @@ public class ProcessEngineTestCase extends TestCase {
   protected RepositoryService repositoryService;
   protected RuntimeService runtimeService;
   protected TaskService taskService;
-  @Deprecated protected HistoryService historicDataService;
   protected HistoryService historyService;
   protected IdentityService identityService;
   protected ManagementService managementService;
@@ -84,6 +83,9 @@ public class ProcessEngineTestCase extends TestCase {
   protected FilterService filterService;
   protected AuthorizationService authorizationService;
   protected CaseService caseService;
+
+  @Deprecated
+  protected HistoryService historicDataService;
 
   protected boolean skipTest = false;
 

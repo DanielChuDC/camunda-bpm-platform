@@ -16,8 +16,14 @@
  */
 package org.camunda.bpm.engine.test.concurrency;
 
-import org.camunda.bpm.engine.ProcessEngineConfiguration;
-import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
+import static org.apache.commons.lang3.time.DateUtils.addDays;
+import static org.apache.commons.lang3.time.DateUtils.addSeconds;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.camunda.bpm.engine.impl.jobexecutor.historycleanup.HistoryCleanupJobHandlerConfiguration.START_DELAY;
+
+import java.util.Collections;
+import java.util.Date;
+
 import org.camunda.bpm.engine.impl.interceptor.Command;
 import org.camunda.bpm.engine.impl.interceptor.CommandContext;
 import org.camunda.bpm.engine.impl.interceptor.CommandInterceptor;
@@ -25,14 +31,7 @@ import org.camunda.bpm.engine.impl.persistence.entity.JobEntity;
 import org.camunda.bpm.engine.impl.util.ClockUtil;
 import org.camunda.bpm.engine.runtime.Job;
 import org.camunda.bpm.engine.test.jobexecutor.ControllableJobExecutor;
-
-import java.util.Collections;
-import java.util.Date;
-
-import static org.apache.commons.lang3.time.DateUtils.addDays;
-import static org.apache.commons.lang3.time.DateUtils.addSeconds;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.camunda.bpm.engine.impl.jobexecutor.historycleanup.HistoryCleanupJobHandlerConfiguration.START_DELAY;
+import org.camunda.bpm.engine.test.util.ProcessEngineProvider;
 
 /**
  * @author Tassilo Weidner
@@ -181,8 +180,7 @@ public class CompetingHistoryCleanupAcquisitionTest extends ConcurrencyTest {
   // helpers ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   protected void initializeProcessEngine() {
-    processEngineConfiguration = (ProcessEngineConfigurationImpl) ProcessEngineConfiguration
-      .createProcessEngineConfigurationFromResource("camunda.cfg.xml");
+    processEngineConfiguration = ProcessEngineProvider.createConfigurationFromResource("camunda.cfg.xml");
 
     jobExecutor.setMaxJobsPerAcquisition(1);
     processEngineConfiguration.setJobExecutor(jobExecutor);

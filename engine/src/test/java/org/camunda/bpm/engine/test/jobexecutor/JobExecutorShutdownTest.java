@@ -66,12 +66,8 @@ public class JobExecutorShutdownTest {
       .endEvent()
       .done();
 
-  protected ProcessEngineBootstrapRule bootstrapRule = new ProcessEngineBootstrapRule() {
-    @Override
-    public ProcessEngineConfiguration configureEngine(ProcessEngineConfigurationImpl configuration) {
-      return configuration.setJobExecutor(buildControllableJobExecutor());
-    }
-  };
+  protected ProcessEngineBootstrapRule bootstrapRule = new ProcessEngineBootstrapRule(
+      configuration -> configuration.setJobExecutor(buildControllableJobExecutor()));
   protected ProcessEngineRule engineRule = new ProvidedProcessEngineRule(bootstrapRule);
 
   @Rule

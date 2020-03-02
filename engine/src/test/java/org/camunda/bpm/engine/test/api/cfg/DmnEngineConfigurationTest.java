@@ -37,6 +37,7 @@ import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.ProcessEngineConfiguration;
 import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.camunda.bpm.engine.impl.dmn.el.ProcessEngineElProvider;
+import org.camunda.bpm.engine.test.util.ProcessEngineProvider;
 import org.junit.After;
 import org.junit.Test;
 
@@ -171,8 +172,8 @@ public class DmnEngineConfigurationTest {
   public void setDmnEngineConfigurationOverXmlConfiguration() {
     // given an embedded DMN engine configuration in XML process engine configuration
     // with default expression language
-    ProcessEngineConfigurationImpl processEngineConfiguration = (ProcessEngineConfigurationImpl) ProcessEngineConfiguration
-        .createProcessEngineConfigurationFromResource(CONFIGURATION_XML);
+    ProcessEngineConfigurationImpl processEngineConfiguration = ProcessEngineProvider
+        .createConfigurationFromResource(CONFIGURATION_XML);
 
     // checks that the configuration is set as on XML
     DefaultDmnEngineConfiguration dmnEngineConfiguration = processEngineConfiguration.getDmnEngineConfiguration();

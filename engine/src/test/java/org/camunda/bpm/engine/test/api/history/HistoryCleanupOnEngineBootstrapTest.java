@@ -43,6 +43,7 @@ import org.camunda.bpm.engine.impl.util.ClockUtil;
 import org.camunda.bpm.engine.impl.util.JsonUtil;
 import org.camunda.bpm.engine.runtime.Job;
 import org.camunda.bpm.engine.test.RequiredHistoryLevel;
+import org.camunda.bpm.engine.test.util.ProcessEngineProvider;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -65,22 +66,22 @@ public class HistoryCleanupOnEngineBootstrapTest {
 
     // given
     // create history cleanup job
-    ProcessEngineConfiguration
-      .createProcessEngineConfigurationFromResource("org/camunda/bpm/engine/test/history/batchwindow.camunda.cfg.xml")
-      .buildProcessEngine()
-      .close();
+    ProcessEngineProvider
+        .createConfigurationFromResource("org/camunda/bpm/engine/test/history/batchwindow.camunda.cfg.xml")
+        .buildProcessEngine()
+        .close();
 
     // when
     // suspend history cleanup job
-    ProcessEngineConfiguration
-      .createProcessEngineConfigurationFromResource("org/camunda/bpm/engine/test/history/no-batchwindow.camunda.cfg.xml")
-      .buildProcessEngine()
-      .close();
+    ProcessEngineProvider
+        .createConfigurationFromResource("org/camunda/bpm/engine/test/history/no-batchwindow.camunda.cfg.xml")
+        .buildProcessEngine()
+        .close();
 
     // then
     // reconfigure history cleanup job
-    ProcessEngineConfiguration processEngineConfiguration = ProcessEngineConfiguration
-      .createProcessEngineConfigurationFromResource("org/camunda/bpm/engine/test/history/batchwindow.camunda.cfg.xml");
+    ProcessEngineConfiguration processEngineConfiguration = ProcessEngineProvider
+        .createConfigurationFromResource("org/camunda/bpm/engine/test/history/batchwindow.camunda.cfg.xml");
     processEngineConfiguration.setProcessEngineName(ENGINE_NAME);
     ProcessEngine processEngine = processEngineConfiguration.buildProcessEngine();
 
@@ -93,9 +94,9 @@ public class HistoryCleanupOnEngineBootstrapTest {
   public void testDecreaseNumberOfHistoryCleanupJobs() {
     // given
     // create history cleanup job
-    ProcessEngine engine = ProcessEngineConfiguration
-      .createProcessEngineConfigurationFromResource("org/camunda/bpm/engine/test/history/history-cleanup-parallelism-default.camunda.cfg.xml")
-      .buildProcessEngine();
+    ProcessEngine engine = ProcessEngineProvider
+        .createConfigurationFromResource("org/camunda/bpm/engine/test/history/history-cleanup-parallelism-default.camunda.cfg.xml")
+        .buildProcessEngine();
 
     // assume
     ManagementService managementService = engine.getManagementService();
@@ -104,9 +105,9 @@ public class HistoryCleanupOnEngineBootstrapTest {
     engine.close();
 
     // when
-    engine = ProcessEngineConfiguration
-    .createProcessEngineConfigurationFromResource("org/camunda/bpm/engine/test/history/history-cleanup-parallelism-less.camunda.cfg.xml")
-      .buildProcessEngine();
+    engine = ProcessEngineProvider
+        .createConfigurationFromResource("org/camunda/bpm/engine/test/history/history-cleanup-parallelism-less.camunda.cfg.xml")
+        .buildProcessEngine();
 
     // then
     // reconfigure history cleanup job
@@ -124,9 +125,9 @@ public class HistoryCleanupOnEngineBootstrapTest {
   public void testIncreaseNumberOfHistoryCleanupJobs() {
     // given
     // create history cleanup job
-    ProcessEngine engine = ProcessEngineConfiguration
-      .createProcessEngineConfigurationFromResource("org/camunda/bpm/engine/test/history/history-cleanup-parallelism-default.camunda.cfg.xml")
-      .buildProcessEngine();
+    ProcessEngine engine = ProcessEngineProvider
+        .createConfigurationFromResource("org/camunda/bpm/engine/test/history/history-cleanup-parallelism-default.camunda.cfg.xml")
+        .buildProcessEngine();
 
     // assume
     ManagementService managementService = engine.getManagementService();
@@ -135,9 +136,9 @@ public class HistoryCleanupOnEngineBootstrapTest {
     engine.close();
 
     // when
-    engine = ProcessEngineConfiguration
-    .createProcessEngineConfigurationFromResource("org/camunda/bpm/engine/test/history/history-cleanup-parallelism-more.camunda.cfg.xml")
-      .buildProcessEngine();
+    engine = ProcessEngineProvider
+        .createConfigurationFromResource("org/camunda/bpm/engine/test/history/history-cleanup-parallelism-more.camunda.cfg.xml")
+        .buildProcessEngine();
 
     // then
     // reconfigure history cleanup job
@@ -186,9 +187,9 @@ public class HistoryCleanupOnEngineBootstrapTest {
     thrown.expect(Exception.class);
     thrown.expectMessage("startTime");
 
-    ProcessEngineConfiguration
-      .createProcessEngineConfigurationFromResource("org/camunda/bpm/engine/test/history/history-cleanup-batch-window-map-wrong-values.camunda.cfg.xml")
-      .buildProcessEngine();
+    ProcessEngineProvider
+        .createConfigurationFromResource("org/camunda/bpm/engine/test/history/history-cleanup-batch-window-map-wrong-values.camunda.cfg.xml")
+        .buildProcessEngine();
   }
 
   @Test
@@ -199,9 +200,9 @@ public class HistoryCleanupOnEngineBootstrapTest {
 
     //when
     //we configure batch window only for Wednesday and start the server
-    ProcessEngine engine = ProcessEngineConfiguration
-      .createProcessEngineConfigurationFromResource("org/camunda/bpm/engine/test/history/history-cleanup-batch-window-map.camunda.cfg.xml")
-      .buildProcessEngine();
+    ProcessEngine engine = ProcessEngineProvider
+        .createConfigurationFromResource("org/camunda/bpm/engine/test/history/history-cleanup-batch-window-map.camunda.cfg.xml")
+        .buildProcessEngine();
 
     //then
     //history cleanup is scheduled for Wednesday
@@ -215,9 +216,9 @@ public class HistoryCleanupOnEngineBootstrapTest {
 
     //when
     //we reconfigure batch window with default values
-    engine = ProcessEngineConfiguration
-      .createProcessEngineConfigurationFromResource("org/camunda/bpm/engine/test/history/history-cleanup-batch-window-default.camunda.cfg.xml")
-      .buildProcessEngine();
+    engine = ProcessEngineProvider
+        .createConfigurationFromResource("org/camunda/bpm/engine/test/history/history-cleanup-batch-window-default.camunda.cfg.xml")
+        .buildProcessEngine();
 
     //then
     //history cleanup is scheduled for today

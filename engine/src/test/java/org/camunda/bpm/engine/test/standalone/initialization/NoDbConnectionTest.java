@@ -18,8 +18,8 @@ package org.camunda.bpm.engine.test.standalone.initialization;
 
 import java.sql.SQLException;
 
-import org.camunda.bpm.engine.ProcessEngineConfiguration;
 import org.camunda.bpm.engine.impl.test.PvmTestCase;
+import org.camunda.bpm.engine.test.util.ProcessEngineProvider;
 
 /**
  * @author Tom Baeyens
@@ -28,9 +28,9 @@ public class NoDbConnectionTest extends PvmTestCase {
 
   public void testNoDbConnection() {
     try {
-      ProcessEngineConfiguration
-        .createProcessEngineConfigurationFromResource("org/camunda/bpm/engine/test/standalone/initialization/nodbconnection.camunda.cfg.xml")
-        .buildProcessEngine();
+      ProcessEngineProvider
+          .createConfigurationFromResource("org/camunda/bpm/engine/test/standalone/initialization/nodbconnection.camunda.cfg.xml")
+          .buildProcessEngine();
       fail("expected exception");
     } catch (RuntimeException e) {
       assertTrue(containsSqlException(e));

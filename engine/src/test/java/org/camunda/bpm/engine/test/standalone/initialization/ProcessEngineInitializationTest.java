@@ -19,6 +19,7 @@ package org.camunda.bpm.engine.test.standalone.initialization;
 import org.camunda.bpm.engine.ProcessEngineConfiguration;
 import org.camunda.bpm.engine.impl.persistence.entity.JobEntity;
 import org.camunda.bpm.engine.impl.test.PvmTestCase;
+import org.camunda.bpm.engine.test.util.ProcessEngineProvider;
 
 /**
  * @author Tom Baeyens
@@ -29,9 +30,9 @@ public class ProcessEngineInitializationTest extends PvmTestCase {
 
   public void testNoTables() {
     try {
-      ProcessEngineConfiguration
-      .createProcessEngineConfigurationFromResource("org/camunda/bpm/engine/test/standalone/initialization/notables.camunda.cfg.xml")
-        .buildProcessEngine();
+      ProcessEngineProvider
+          .createConfigurationFromResource("org/camunda/bpm/engine/test/standalone/initialization/notables.camunda.cfg.xml")
+          .buildProcessEngine();
       fail("expected exception");
     } catch (Exception e) {
       // OK
@@ -40,15 +41,15 @@ public class ProcessEngineInitializationTest extends PvmTestCase {
   }
 
   public void testDefaultRetries() {
-    ProcessEngineConfiguration configuration = ProcessEngineConfiguration
-      .createProcessEngineConfigurationFromResource("org/camunda/bpm/engine/test/standalone/initialization/defaultretries.camunda.cfg.xml");
+    ProcessEngineConfiguration configuration = ProcessEngineProvider
+        .createConfigurationFromResource("org/camunda/bpm/engine/test/standalone/initialization/defaultretries.camunda.cfg.xml");
 
     assertEquals(JobEntity.DEFAULT_RETRIES, configuration.getDefaultNumberOfRetries());
   }
 
   public void testCustomDefaultRetries() {
-    ProcessEngineConfiguration configuration = ProcessEngineConfiguration
-      .createProcessEngineConfigurationFromResource("org/camunda/bpm/engine/test/standalone/initialization/customdefaultretries.camunda.cfg.xml");
+    ProcessEngineConfiguration configuration = ProcessEngineProvider
+        .createConfigurationFromResource("org/camunda/bpm/engine/test/standalone/initialization/customdefaultretries.camunda.cfg.xml");
 
     assertEquals(5, configuration.getDefaultNumberOfRetries());
   }

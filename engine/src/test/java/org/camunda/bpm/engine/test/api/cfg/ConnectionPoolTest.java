@@ -21,9 +21,9 @@ import javax.sql.DataSource;
 import org.apache.ibatis.datasource.pooled.PooledDataSource;
 import org.apache.ibatis.session.Configuration;
 import org.camunda.bpm.engine.ProcessEngine;
-import org.camunda.bpm.engine.ProcessEngineConfiguration;
 import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.camunda.bpm.engine.impl.test.PvmTestCase;
+import org.camunda.bpm.engine.test.util.ProcessEngineProvider;
 
 
 /**
@@ -32,8 +32,8 @@ import org.camunda.bpm.engine.impl.test.PvmTestCase;
 public class ConnectionPoolTest extends PvmTestCase {
 
   public void testMyBatisConnectionPoolProperlyConfigured() {
-    ProcessEngineConfigurationImpl config = (ProcessEngineConfigurationImpl) ProcessEngineConfiguration
-      .createProcessEngineConfigurationFromResource("org/camunda/bpm/engine/test/api/cfg/connection-pool.camunda.cfg.xml");
+    ProcessEngineConfigurationImpl config = ProcessEngineProvider
+        .createConfigurationFromResource("org/camunda/bpm/engine/test/api/cfg/connection-pool.camunda.cfg.xml");
 
     ProcessEngine engine = config.buildProcessEngine();
 

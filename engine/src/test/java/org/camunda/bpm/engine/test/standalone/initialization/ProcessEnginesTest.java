@@ -16,32 +16,53 @@
  */
 package org.camunda.bpm.engine.test.standalone.initialization;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.Enumeration;
 import java.util.List;
 
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.ProcessEngineInfo;
 import org.camunda.bpm.engine.ProcessEngines;
-import org.camunda.bpm.engine.impl.test.PvmTestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * @author Tom Baeyens
  */
-public class ProcessEnginesTest extends PvmTestCase {
-  
-  protected void setUp() throws Exception {
-    super.setUp();
+public class ProcessEnginesTest {
+
+  ClassLoader originalClassLoader;
+
+  @Before
+  public void setUp() throws Exception {
+    Thread currentThread = Thread.currentThread();
+    originalClassLoader = currentThread.getContextClassLoader();
+    currentThread.setContextClassLoader(new TestClassLoader());
     ProcessEngines.destroy();
-    ProcessEngines.init();
-  }
-  
-  protected void tearDown() throws Exception {
-    ProcessEngines.destroy();
-    super.tearDown();
   }
 
+  @After
+  public void tearDown() throws Exception {
+    ProcessEngines.destroy();
+    Thread.currentThread().setContextClassLoader(originalClassLoader);
+  }
+
+  @Test
   public void testProcessEngineInfo() {
+    // given
+    ProcessEngines.init();
 
+    // when
     List<ProcessEngineInfo> processEngineInfos = ProcessEngines.getProcessEngineInfos();
+
+    // ten
     assertEquals(1, processEngineInfos.size());
 
     ProcessEngineInfo processEngineInfo = processEngineInfos.get(0);
@@ -53,4 +74,23 @@ public class ProcessEnginesTest extends PvmTestCase {
     assertNotNull(processEngine);
   }
 
+  public static class TestClassLoader extends URLClassLoader {
+
+    public TestClassLoader() {
+      super(((URLClassLoader)getSystemClassLoader()).getURLs());
+    }
+
+    @Override
+    public Enumeration<URL> getResources(String name) throws IOException {
+//      StringBuilder r = new StringBuilder(type.getName().replace('.', '/'));
+//      if (name != null) {
+//        r.append("." + name);
+//      }
+      if ("camunda.cfg.xml".equalsIgnoreCase(name)) {
+        name = "org/camunda/bpm/engine/test/standalone/initialization/camunda.cfg.xml";
+      }
+
+      return super.getResources(name);
+    }
+  }
 }

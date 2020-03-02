@@ -40,7 +40,6 @@ import org.camunda.bpm.engine.BadUserRequestException;
 import org.camunda.bpm.engine.IdentityService;
 import org.camunda.bpm.engine.OptimisticLockingException;
 import org.camunda.bpm.engine.ProcessEngine;
-import org.camunda.bpm.engine.ProcessEngineConfiguration;
 import org.camunda.bpm.engine.ProcessEngineException;
 import org.camunda.bpm.engine.ProcessEngines;
 import org.camunda.bpm.engine.authorization.Authorization;
@@ -52,6 +51,7 @@ import org.camunda.bpm.engine.impl.identity.Account;
 import org.camunda.bpm.engine.impl.identity.Authentication;
 import org.camunda.bpm.engine.impl.util.ClockUtil;
 import org.camunda.bpm.engine.test.ProcessEngineRule;
+import org.camunda.bpm.engine.test.util.ProcessEngineProvider;
 import org.camunda.bpm.engine.test.util.ProvidedProcessEngineRule;
 import org.camunda.commons.testing.ProcessEngineLoggingRule;
 import org.camunda.commons.testing.WatchLogger;
@@ -592,9 +592,9 @@ public class IdentityServiceTest {
 
   @Test
   public void testSaveUserWithGenericResourceId() {
-    processEngine = ProcessEngineConfiguration
-      .createProcessEngineConfigurationFromResource("org/camunda/bpm/engine/test/api/identity/generic.resource.id.whitelist.camunda.cfg.xml")
-      .buildProcessEngine();
+    processEngine = ProcessEngineProvider
+        .createConfigurationFromResource("org/camunda/bpm/engine/test/api/identity/generic.resource.id.whitelist.camunda.cfg.xml")
+        .buildProcessEngine();
 
     User user = processEngine.getIdentityService().newUser("*");
 
@@ -606,9 +606,9 @@ public class IdentityServiceTest {
 
   @Test
   public void testSaveGroupWithGenericResourceId() {
-    processEngine = ProcessEngineConfiguration
-      .createProcessEngineConfigurationFromResource("org/camunda/bpm/engine/test/api/identity/generic.resource.id.whitelist.camunda.cfg.xml")
-      .buildProcessEngine();
+    processEngine = ProcessEngineProvider
+        .createConfigurationFromResource("org/camunda/bpm/engine/test/api/identity/generic.resource.id.whitelist.camunda.cfg.xml")
+        .buildProcessEngine();
 
     Group group = processEngine.getIdentityService().newGroup("*");
 
@@ -979,9 +979,9 @@ public class IdentityServiceTest {
 
   @Test
   public void testCustomResourceWhitelist() {
-    processEngine = ProcessEngineConfiguration
-      .createProcessEngineConfigurationFromResource("org/camunda/bpm/engine/test/api/identity/custom.whitelist.camunda.cfg.xml")
-      .buildProcessEngine();
+    processEngine = ProcessEngineProvider
+        .createConfigurationFromResource("org/camunda/bpm/engine/test/api/identity/custom.whitelist.camunda.cfg.xml")
+        .buildProcessEngine();
 
     IdentityService identityService = processEngine.getIdentityService();
 
@@ -1018,9 +1018,9 @@ public class IdentityServiceTest {
 
   @Test
   public void testSeparateResourceWhitelistPatterns() {
-    processEngine = ProcessEngineConfiguration
-      .createProcessEngineConfigurationFromResource("org/camunda/bpm/engine/test/api/identity/custom.resource.whitelist.camunda.cfg.xml")
-      .buildProcessEngine();
+    processEngine = ProcessEngineProvider
+        .createConfigurationFromResource("org/camunda/bpm/engine/test/api/identity/custom.resource.whitelist.camunda.cfg.xml")
+        .buildProcessEngine();
 
     IdentityService identityService = processEngine.getIdentityService();
 

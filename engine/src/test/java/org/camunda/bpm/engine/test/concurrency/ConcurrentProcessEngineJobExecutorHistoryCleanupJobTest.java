@@ -34,6 +34,7 @@ import org.camunda.bpm.engine.impl.interceptor.CommandInvocationContext;
 import org.camunda.bpm.engine.impl.persistence.entity.JobEntity;
 import org.camunda.bpm.engine.impl.util.ClockUtil;
 import org.camunda.bpm.engine.runtime.Job;
+import org.camunda.bpm.engine.test.util.ProcessEngineProvider;
 
 /**
  * <p>Tests a concurrent attempt of a bootstrapping Process Engine to reconfigure
@@ -146,8 +147,8 @@ public class ConcurrentProcessEngineJobExecutorHistoryCleanupJobTest extends Con
 
       bootstrapCommand = new ControllableBootstrapEngineCommand(this.monitor);
 
-      ProcessEngineConfiguration processEngineConfiguration = ProcessEngineConfiguration
-        .createProcessEngineConfigurationFromResource("org/camunda/bpm/engine/test/concurrency/historycleanup.camunda.cfg.xml");
+      ProcessEngineConfiguration processEngineConfiguration = ProcessEngineProvider
+          .createConfigurationFromResource("org/camunda/bpm/engine/test/concurrency/historycleanup.camunda.cfg.xml");
 
 
       processEngineConfiguration.setProcessEngineBootstrapCommand(bootstrapCommand);

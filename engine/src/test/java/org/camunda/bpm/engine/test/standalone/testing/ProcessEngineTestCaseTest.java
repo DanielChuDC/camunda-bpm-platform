@@ -33,6 +33,10 @@ import org.hamcrest.CoreMatchers;
  */
 public class ProcessEngineTestCaseTest extends ProcessEngineTestCase {
 
+  public ProcessEngineTestCaseTest() {
+    super.setConfigurationResource("camunda.h2.cfg.xml");
+  }
+
   @Deployment
   public void testSimpleProcess() {
     runtimeService.startProcessInstanceByKey("simpleProcess");

@@ -17,27 +17,35 @@
 package org.camunda.bpm.engine.test.util;
 
 import java.io.FileNotFoundException;
+import java.util.function.Function;
 
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.ProcessEngineConfiguration;
 import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
-import org.camunda.bpm.engine.impl.test.PluggableProcessEngineTestCase;
+import org.camunda.bpm.engine.impl.test.AbstractProcessEngineTestCase;
 import org.camunda.commons.testconainers.DatabaseContainerProvider;
 
 
-/** Base class for the process engine test cases.
- *
- * The main reason not to use our own test support classes is that we need to
- * run our test suite with various configurations, e.g. with and without spring,
- * standalone or on a server etc.  Those requirements create some complications
- * so we think it's best to use a separate base class.  That way it is much easier
- * for us to maintain our own codebase and at the same time provide stability
- * on the test support classes that we offer as part of our api (in org.camunda.bpm.engine.test).
- *
- * @author Tom Baeyens
- * @author Joram Barrez
+/**
+ * Base class for the process engine JUnit 3 tests.
  */
-public class PluggableProcessEngineTest extends PluggableProcessEngineTestCase {
+public abstract class PluggableProcessEngineTest extends AbstractProcessEngineTestCase {
+
+  protected static ProcessEngine cachedProcessEngine;
+  protected String engineConfigurationResource;
+  protected Function engineConfigurator;
+
+  public PluggableProcessEngineTest() {
+  }
+
+  public PluggableProcessEngineTest(String engineConfigurationResource) {
+    this(engineConfigurationResource, null);
+  }
+
+  public PluggableProcessEngineTest(String configurationResource, Function<ProcessEngineConfigurationImpl, Void> customizeConfiguration) {
+    this.engineConfigurationResource = configurationResource;
+    this.engineConfigurator = customizeConfiguration;
+  }
 
   public static ProcessEngine getProcessEngine() {
     return getOrInitializeCachedProcessEngineWithTC();
@@ -45,7 +53,11 @@ public class PluggableProcessEngineTest extends PluggableProcessEngineTestCase {
 
   @Override
   protected void initializeProcessEngine() {
-    processEngine = getProcessEngine();
+    if (engineConfigurationResource != null) {
+      processEngine = getCustomProcessEngine();
+    } else {
+      processEngine = getProcessEngine();
+    }
   }
 
   protected static ProcessEngine getOrInitializeCachedProcessEngineWithTC() {
@@ -64,14 +76,47 @@ public class PluggableProcessEngineTest extends PluggableProcessEngineTestCase {
       }
 
       // bootstrap Testcontainers database
-      DatabaseContainerProvider databaseProvider = new DatabaseContainerProvider();
-      databaseProvider.startDatabase();
-      if (databaseProvider.getDbContainer() != null) {
-        processEngineConfiguration.setJdbcUrl(databaseProvider.getJdbcUrl());
+      String jdbcUrl = processEngineConfiguration.getJdbcUrl();
+      if (!jdbcUrl.contains("h2")) {
+        DatabaseContainerProvider databaseProvider = new DatabaseContainerProvider();
+        databaseProvider.startDatabase();
+        if (databaseProvider.getDbContainer() != null) {
+          processEngineConfiguration.setJdbcUrl(databaseProvider.getJdbcUrl());
+        }
       }
 
       cachedProcessEngine = processEngineConfiguration.buildProcessEngine();
     }
     return cachedProcessEngine;
+  }
+
+  protected ProcessEngine getCustomProcessEngine() {
+    processEngineConfiguration = (ProcessEngineConfigurationImpl) ProcessEngineConfiguration
+        .createProcessEngineConfigurationFromResource(engineConfigurationResource);
+
+    if (engineConfigurator != null) {
+      engineConfigurator.apply(processEngineConfiguration);
+    }
+
+    // bootstrap Testcontainers database
+    String jdbcUrl = processEngineConfiguration.getJdbcUrl();
+    if (!jdbcUrl.contains("h2")) {
+      DatabaseContainerProvider databaseProvider = new DatabaseContainerProvider();
+      databaseProvider.startDatabase();
+      if (databaseProvider.getDbContainer() != null) {
+        processEngineConfiguration.setJdbcUrl(databaseProvider.getJdbcUrl());
+      }
+    }
+
+    return processEngineConfiguration.buildProcessEngine();
+  }
+
+  @Override
+  protected void closeDownProcessEngine() {
+    if (engineConfigurationResource != null) {
+      processEngine.close();
+      processEngine = null;
+    }
+    super.closeDownProcessEngine();
   }
 }

@@ -18,7 +18,6 @@ package org.camunda.bpm.engine.test.concurrency;
 
 import java.util.List;
 
-import org.camunda.bpm.engine.ProcessEngineConfiguration;
 import org.camunda.bpm.engine.history.HistoricJobLog;
 import org.camunda.bpm.engine.impl.context.Context;
 import org.camunda.bpm.engine.impl.db.entitymanager.DbEntityManager;
@@ -30,6 +29,7 @@ import org.camunda.bpm.engine.impl.persistence.entity.JobEntity;
 import org.camunda.bpm.engine.impl.persistence.entity.MessageEntity;
 import org.camunda.bpm.engine.runtime.Job;
 import org.camunda.bpm.engine.test.util.DatabaseHelper;
+import org.camunda.bpm.engine.test.util.ProcessEngineProvider;
 
 /**
  *  @author Philipp Ossler
@@ -59,7 +59,7 @@ public class JdbcStatementTimeoutTest extends ConcurrencyTest {
 
   @Override
   protected void initializeProcessEngine() {
-    processEngine = ProcessEngineConfiguration.createProcessEngineConfigurationFromResource("camunda.cfg.xml")
+    processEngine = ProcessEngineProvider.createConfigurationFromResource("camunda.cfg.xml")
         .setJdbcStatementTimeout(STATEMENT_TIMEOUT_IN_SECONDS)
         .buildProcessEngine();
   }

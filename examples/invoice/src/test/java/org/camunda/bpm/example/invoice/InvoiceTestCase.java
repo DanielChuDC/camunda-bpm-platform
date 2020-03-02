@@ -16,7 +16,12 @@
  */
 package org.camunda.bpm.example.invoice;
 
+import static org.camunda.bpm.engine.impl.test.ProcessEngineAssert.assertProcessEnded;
 import static org.camunda.bpm.engine.variable.Variables.fileValue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.InputStream;
 import java.util.Arrays;
@@ -24,16 +29,38 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.camunda.bpm.engine.ManagementService;
+import org.camunda.bpm.engine.ProcessEngine;
+import org.camunda.bpm.engine.RuntimeService;
+import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.runtime.Job;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.IdentityLink;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.engine.test.Deployment;
-import org.camunda.bpm.engine.test.ProcessEngineTestCase;
+import org.camunda.bpm.engine.test.ProcessEngineRule;
 import org.camunda.bpm.engine.variable.VariableMap;
 import org.camunda.bpm.engine.variable.Variables;
+import org.junit.Before;
+import org.junit.Rule;
 
-public class InvoiceTestCase extends ProcessEngineTestCase {
+public class InvoiceTestCase {
+
+  @Rule
+  public ProcessEngineRule engineRule = new ProcessEngineRule();
+
+  protected ProcessEngine processEngine;
+  protected RuntimeService runtimeService;
+  protected TaskService taskService;
+  protected ManagementService managementService;
+
+  @Before
+  public void setUp() {
+    processEngine = engineRule.getProcessEngine();
+    runtimeService = engineRule.getRuntimeService();
+    taskService = engineRule.getTaskService();
+    managementService = engineRule.getManagementService();
+  }
 
   @Deployment(resources= {"invoice.v1.bpmn", "invoiceBusinessDecisions.dmn"})
   public void testHappyPathV1() {
@@ -75,7 +102,7 @@ public class InvoiceTestCase extends ProcessEngineTestCase {
     assertNotNull(archiveInvoiceJob);
     managementService.executeJob(archiveInvoiceJob.getId());
 
-    assertProcessEnded(pi.getId());
+    assertProcessEnded(processEngine, pi.getId());
   }
 
   @Deployment(resources= {"invoice.v2.bpmn", "invoiceBusinessDecisions.dmn"})
@@ -118,7 +145,7 @@ public class InvoiceTestCase extends ProcessEngineTestCase {
     assertNotNull(archiveInvoiceJob);
     managementService.executeJob(archiveInvoiceJob.getId());
 
-    assertProcessEnded(pi.getId());
+    assertProcessEnded(processEngine, pi.getId());
   }
 
   @Deployment(resources= {"invoice.v2.bpmn", "invoiceBusinessDecisions.dmn"})
@@ -210,8 +237,8 @@ public class InvoiceTestCase extends ProcessEngineTestCase {
     variables.put("clarified", Boolean.FALSE);
     taskService.complete(task.getId(), variables);
 
-    assertProcessEnded(task.getProcessInstanceId());
-    assertProcessEnded(pi.getId());
+    assertProcessEnded(processEngine, task.getProcessInstanceId());
+    assertProcessEnded(processEngine, pi.getId());
   }
 
 

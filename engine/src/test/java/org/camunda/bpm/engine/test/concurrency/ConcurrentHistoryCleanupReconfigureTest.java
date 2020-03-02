@@ -16,12 +16,11 @@
  */
 package org.camunda.bpm.engine.test.concurrency;
 
-import org.camunda.bpm.engine.ProcessEngineConfiguration;
 import org.camunda.bpm.engine.impl.BootstrapEngineCommand;
-import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.camunda.bpm.engine.impl.interceptor.Command;
 import org.camunda.bpm.engine.impl.interceptor.CommandContext;
 import org.camunda.bpm.engine.impl.persistence.entity.JobEntity;
+import org.camunda.bpm.engine.test.util.ProcessEngineProvider;
 
 public class ConcurrentHistoryCleanupReconfigureTest extends ConcurrencyTest {
 
@@ -83,8 +82,7 @@ public class ConcurrentHistoryCleanupReconfigureTest extends ConcurrencyTest {
   // helpers ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   protected void initializeProcessEngine() {
-    processEngineConfiguration = (ProcessEngineConfigurationImpl) ProcessEngineConfiguration
-      .createProcessEngineConfigurationFromResource("camunda.cfg.xml");
+    processEngineConfiguration = ProcessEngineProvider.createConfigurationFromResource("camunda.cfg.xml");
 
     processEngineConfiguration.setHistoryCleanupBatchWindowStartTime("12:00");
 

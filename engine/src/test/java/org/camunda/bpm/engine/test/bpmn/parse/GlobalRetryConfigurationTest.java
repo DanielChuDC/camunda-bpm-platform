@@ -22,9 +22,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 import org.camunda.bpm.engine.ManagementService;
-import org.camunda.bpm.engine.ProcessEngineConfiguration;
 import org.camunda.bpm.engine.RuntimeService;
-import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.camunda.bpm.engine.runtime.Job;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.test.util.ProcessEngineBootstrapRule;
@@ -46,12 +44,8 @@ public class GlobalRetryConfigurationTest {
   private static final String SCHEDULE = "R5/PT5M";
   private static final int JOB_RETRIES = 4;
 
-  public ProcessEngineBootstrapRule bootstrapRule = new ProcessEngineBootstrapRule() {
-    public ProcessEngineConfiguration configureEngine(ProcessEngineConfigurationImpl configuration) {
-      configuration.setFailedJobRetryTimeCycle(SCHEDULE);
-      return configuration;
-    }
-  };
+  public ProcessEngineBootstrapRule bootstrapRule = new ProcessEngineBootstrapRule(
+      configuration -> configuration.setFailedJobRetryTimeCycle(SCHEDULE));
 
   public ProvidedProcessEngineRule engineRule = new ProvidedProcessEngineRule(bootstrapRule);
   public ProcessEngineTestRule testRule = new ProcessEngineTestRule(engineRule);
