@@ -32,6 +32,7 @@ import org.camunda.bpm.engine.runtime.CaseExecution;
 import org.camunda.bpm.engine.runtime.CaseInstance;
 import org.camunda.bpm.engine.variable.VariableMap;
 import org.camunda.commons.testconainers.DatabaseContainerProvider;
+import org.junit.Rule;
 
 
 /**
@@ -42,6 +43,9 @@ public abstract class PluggableProcessEngineTest extends AbstractProcessEngineTe
   protected static ProcessEngine cachedProcessEngine;
   protected String engineConfigurationResource;
   protected Function engineConfigurator;
+
+  @Rule
+  public ProcessEngineTestRule testHelper = new ProcessEngineTestRule(processEngine);
 
   public PluggableProcessEngineTest() {
   }
