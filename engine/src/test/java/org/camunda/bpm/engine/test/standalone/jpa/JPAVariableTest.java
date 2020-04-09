@@ -47,8 +47,6 @@ import org.camunda.bpm.engine.variable.Variables;
 import org.camunda.bpm.engine.variable.Variables.SerializationDataFormats;
 import org.camunda.bpm.engine.variable.value.ObjectValue;
 import org.junit.Assert;
-import org.junit.Ignore;
-
 
 /**
  * @author Frederik Heremans
@@ -87,7 +85,6 @@ public class JPAVariableTest extends AbstractProcessEngineTestCase {
     return new JPAVariableTestSetup();
   }
 
-  @Ignore
   public static class JPAVariableTestSetup extends TestSetup {
     public JPAVariableTestSetup() {
       super(new TestSuite(JPAVariableTest.class));

@@ -19,21 +19,12 @@ package org.camunda.bpm.engine.test.util;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.ProcessEngineConfiguration;
 import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
-import org.camunda.commons.testconainers.DatabaseContainerProvider;
 
 public class ProcessEngineProvider {
 
   public static ProcessEngineConfigurationImpl createConfigurationFromResource(String resource) {
     ProcessEngineConfigurationImpl configuration = (ProcessEngineConfigurationImpl) ProcessEngineConfiguration
         .createProcessEngineConfigurationFromResource(resource);
-
-    if (!configuration.getJdbcUrl().contains("h2")) {
-      DatabaseContainerProvider databaseProvider = new DatabaseContainerProvider();
-      databaseProvider.startDatabase();
-      if (databaseProvider.getDbContainer() != null) {
-        configuration.setJdbcUrl(databaseProvider.getJdbcUrl());
-      }
-    }
 
     return configuration;
   }
