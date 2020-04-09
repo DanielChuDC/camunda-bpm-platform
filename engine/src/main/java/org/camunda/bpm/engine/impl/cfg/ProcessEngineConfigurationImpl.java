@@ -52,6 +52,7 @@ import org.apache.ibatis.mapping.Environment;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.TransactionIsolationLevel;
 import org.apache.ibatis.session.defaults.DefaultSqlSessionFactory;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
@@ -1389,6 +1390,9 @@ public abstract class ProcessEngineConfigurationImpl extends ProcessEngineConfig
 
         PooledDataSource pooledDataSource =
             new PooledDataSource(ReflectUtil.getClassLoader(), jdbcDriver, jdbcUrl, jdbcUsername, jdbcPassword);
+
+        // Set default Transaction Isolation Level to READ_COMMITTED
+        pooledDataSource.setDefaultTransactionIsolationLevel(TransactionIsolationLevel.READ_COMMITTED.getLevel());
 
         if (jdbcMaxActiveConnections > 0) {
           pooledDataSource.setPoolMaximumActiveConnections(jdbcMaxActiveConnections);
