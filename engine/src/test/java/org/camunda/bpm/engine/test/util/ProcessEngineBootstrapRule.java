@@ -27,11 +27,13 @@ import org.camunda.bpm.engine.impl.persistence.entity.JobEntity;
 import org.camunda.bpm.engine.runtime.Job;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
+import org.junit.runners.model.Statement;
 
 public class ProcessEngineBootstrapRule extends TestWatcher {
 
   private ProcessEngine processEngine;
   protected ProcessEngineConfigurator processEngineConfigurator;
+  protected String configurationResource;
 
   public ProcessEngineBootstrapRule() {
     this("camunda.cfg.xml");
@@ -47,7 +49,8 @@ public class ProcessEngineBootstrapRule extends TestWatcher {
 
   public ProcessEngineBootstrapRule(String configurationResource, ProcessEngineConfigurator processEngineConfigurator) {
     this.processEngineConfigurator = processEngineConfigurator;
-    this.processEngine = bootstrapEngine(configurationResource);
+    this.configurationResource = configurationResource;
+//    this.processEngine = bootstrapEngine(configurationResource);
   }
 
   public ProcessEngine bootstrapEngine(String configurationResource) {
@@ -62,6 +65,12 @@ public class ProcessEngineBootstrapRule extends TestWatcher {
       processEngineConfigurator.configureEngine(configuration);
     }
     return configuration;
+  }
+
+  @Override
+  public Statement apply(Statement base, Description description) {
+    this.processEngine = bootstrapEngine(configurationResource);
+    return super.apply(base, description);
   }
 
   public ProcessEngine getProcessEngine() {
