@@ -44,12 +44,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 /**
@@ -73,6 +67,7 @@ public class HistoricVariableInstanceAuthorizationTest extends AuthorizationTest
         "org/camunda/bpm/engine/test/api/authorization/oneTaskCase.cmmn");
 
     ensureSpecificVariablePermission = processEngineConfiguration.isEnforceSpecificVariablePermission();
+    super.setUp();
   }
 
   @After

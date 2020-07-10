@@ -63,6 +63,7 @@ public class HistoricIncidentAuthorizationTest extends AuthorizationTest {
         "org/camunda/bpm/engine/test/api/authorization/timerStartEventProcess.bpmn20.xml",
         "org/camunda/bpm/engine/test/api/authorization/oneIncidentProcess.bpmn20.xml",
         "org/camunda/bpm/engine/test/api/authorization/anotherOneIncidentProcess.bpmn20.xml").getId();
+    super.setUp();
   }
 
   @After

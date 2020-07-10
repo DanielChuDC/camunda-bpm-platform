@@ -52,6 +52,7 @@ public class HistoricActivityInstanceAuthorizationTest extends AuthorizationTest
     testRule.deploy(
         "org/camunda/bpm/engine/test/api/oneTaskProcess.bpmn20.xml",
         "org/camunda/bpm/engine/test/api/authorization/messageStartEventProcess.bpmn20.xml");
+    super.setUp();
   }
 
   @After

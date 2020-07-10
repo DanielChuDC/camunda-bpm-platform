@@ -60,11 +60,6 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
@@ -88,6 +83,7 @@ public class UserOperationLogAuthorizationTest extends AuthorizationTest {
         "org/camunda/bpm/engine/test/api/oneTaskProcess.bpmn20.xml",
         "org/camunda/bpm/engine/test/api/authorization/oneTaskCase.cmmn",
         "org/camunda/bpm/engine/test/api/authorization/timerBoundaryEventProcess.bpmn20.xml");
+    super.setUp();
   }
 
   @After

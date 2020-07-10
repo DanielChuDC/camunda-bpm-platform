@@ -65,6 +65,7 @@ public class HistoricDetailAuthorizationTest extends AuthorizationTest {
         "org/camunda/bpm/engine/test/api/oneTaskProcess.bpmn20.xml",
         "org/camunda/bpm/engine/test/api/authorization/messageStartEventProcess.bpmn20.xml",
         "org/camunda/bpm/engine/test/api/authorization/oneTaskCase.cmmn");
+    super.setUp();s
   }
 
   @After
