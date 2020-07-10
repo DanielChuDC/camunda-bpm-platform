@@ -16,6 +16,8 @@
  */
 package org.camunda.bpm.engine.test.concurrency;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.util.List;
 
 import org.camunda.bpm.engine.history.HistoricJobLog;
@@ -29,19 +31,10 @@ import org.camunda.bpm.engine.impl.persistence.entity.JobEntity;
 import org.camunda.bpm.engine.impl.persistence.entity.MessageEntity;
 import org.camunda.bpm.engine.impl.test.RequiredDatabase;
 import org.camunda.bpm.engine.runtime.Job;
-import org.camunda.bpm.engine.test.util.DatabaseHelper;
 import org.camunda.bpm.engine.test.util.ProcessEngineProvider;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
 
 /**
  *  @author Philipp Ossler
@@ -69,10 +62,7 @@ public class JdbcStatementTimeoutTest extends ConcurrencyTest {
       thread1.waitUntilDone();
       deleteJobEntities();
     }
-  }
 
-  @After
-  public void closeDownProcessEngine() {
     processEngine.close();
     processEngine = null;
   }
