@@ -77,6 +77,7 @@ public class FormAuthorizationTest extends AuthorizationTest {
 
   @After
   public void tearDown() {
+    super.tearDown();
     processEngineConfiguration.setEnforceSpecificVariablePermission(ensureSpecificVariablePermission);
   }
 

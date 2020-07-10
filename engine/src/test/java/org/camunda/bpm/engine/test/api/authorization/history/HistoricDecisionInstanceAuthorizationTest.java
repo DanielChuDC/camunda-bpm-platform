@@ -73,6 +73,8 @@ public class HistoricDecisionInstanceAuthorizationTest extends AuthorizationTest
 
   @After
   public void tearDown() {
+    super.tearDown();
+
     DefaultDmnEngineConfiguration dmnEngineConfiguration =
         processEngineConfiguration.getDmnEngineConfiguration();
 

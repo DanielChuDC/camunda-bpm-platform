@@ -66,6 +66,7 @@ public class HistoricDetailAuthorizationTest extends AuthorizationTest {
 
   @After
   public void tearDown() {
+    super.tearDown();
     processEngineConfiguration.setEnableHistoricInstancePermissions(false);
     processEngineConfiguration.setEnforceSpecificVariablePermission(false);
   }

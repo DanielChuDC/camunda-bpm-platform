@@ -82,7 +82,7 @@ public abstract class AuthorizationTest extends PluggableProcessEngineTest {
   }
 
   @After
-  public void authorizationTestTearDown() {
+  public void tearDown() {
     processEngineConfiguration.setAuthorizationEnabled(false);
     for (User user : identityService.createUserQuery().list()) {
       identityService.deleteUser(user.getId());

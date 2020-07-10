@@ -70,6 +70,7 @@ public class HistoryCleanupAuthorizationTest extends AuthorizationTest {
   public void tearDown() {
     processEngineConfiguration.setHistoryCleanupStrategy(HISTORY_CLEANUP_STRATEGY_REMOVAL_TIME_BASED);
 
+    super.tearDown();
     clearDatabase();
     clearMetrics();
   }

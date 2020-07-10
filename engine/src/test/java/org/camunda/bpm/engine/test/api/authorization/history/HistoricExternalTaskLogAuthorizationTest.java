@@ -63,6 +63,7 @@ public class HistoricExternalTaskLogAuthorizationTest extends AuthorizationTest 
 
   @After
   public void tearDown() {
+    super.tearDown();
     processEngineConfiguration.setEnableHistoricInstancePermissions(false);
   }
 

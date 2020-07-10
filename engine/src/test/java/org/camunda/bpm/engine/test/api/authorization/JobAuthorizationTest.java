@@ -68,6 +68,7 @@ public class JobAuthorizationTest extends AuthorizationTest {
 
   @After
   public void tearDown() {
+    super.tearDown();
     CommandExecutor commandExecutor = processEngineConfiguration.getCommandExecutorTxRequired();
     commandExecutor.execute(commandContext -> {
       commandContext.getHistoricJobLogManager().deleteHistoricJobLogsByHandlerType(TimerSuspendJobDefinitionHandler.TYPE);

@@ -54,6 +54,7 @@ public class HistoricIdentityLinkLogAuthorizationTest extends AuthorizationTest 
 
   @After
   public void tearDown() {
+    super.tearDown();
     processEngineConfiguration.setEnableHistoricInstancePermissions(false);
   }
 

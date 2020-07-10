@@ -93,6 +93,7 @@ public class ProcessInstanceAuthorizationTest extends AuthorizationTest {
 
   @After
   public void tearDown() {
+    super.tearDown();
     processEngineConfiguration.setEnforceSpecificVariablePermission(ensureSpecificVariablePermission);
   }
 

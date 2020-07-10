@@ -96,6 +96,8 @@ public class TaskAuthorizationTest extends AuthorizationTest {
 
   @After
   public void tearDown() {
+    super.tearDown();
+
     processEngineConfiguration.getCommandExecutorTxRequired().execute(new Command<Void>() {
       public Void execute(CommandContext commandContext) {
 

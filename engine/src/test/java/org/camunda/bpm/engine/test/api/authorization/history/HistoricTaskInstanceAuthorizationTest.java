@@ -80,6 +80,7 @@ public class HistoricTaskInstanceAuthorizationTest extends AuthorizationTest {
 
   @After
   public void tearDown() {
+    super.tearDown();
     processEngineConfiguration.setEnableHistoricInstancePermissions(false);
   }
 

@@ -60,6 +60,7 @@ public class DeploymentStatisticsAuthorizationTest extends AuthorizationTest {
 
   @After
   public void tearDown() {
+    super.tearDown();
     deleteDeployment(firstDeploymentId);
     deleteDeployment(secondDeploymentId);
     deleteDeployment(thirdDeploymentId);
