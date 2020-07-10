@@ -31,7 +31,6 @@ import org.camunda.bpm.engine.test.util.ProvidedProcessEngineRule;
 import org.camunda.bpm.model.bpmn.Bpmn;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
 import org.junit.Before;
-import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -45,8 +44,7 @@ public class GlobalRetryConfigurationTest {
   private static final String SCHEDULE = "R5/PT5M";
   private static final int JOB_RETRIES = 4;
 
-  @ClassRule
-  public static ProcessEngineBootstrapRule bootstrapRule = new ProcessEngineBootstrapRule(
+  public ProcessEngineBootstrapRule bootstrapRule = new ProcessEngineBootstrapRule(
       configuration -> configuration.setFailedJobRetryTimeCycle(SCHEDULE));
 
   public ProvidedProcessEngineRule engineRule = new ProvidedProcessEngineRule(bootstrapRule);
@@ -56,7 +54,7 @@ public class GlobalRetryConfigurationTest {
   public ExpectedException thrown = ExpectedException.none();
 
   @Rule
-  public RuleChain ruleChain = RuleChain.outerRule(engineRule).around(testRule);
+  public RuleChain ruleChain = RuleChain.outerRule(bootstrapRule).around(engineRule).around(testRule);
 
   private RuntimeService runtimeService;
   private ManagementService managementService;
