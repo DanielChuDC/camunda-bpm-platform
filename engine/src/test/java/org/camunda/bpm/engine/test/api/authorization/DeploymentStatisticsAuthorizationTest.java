@@ -55,6 +55,7 @@ public class DeploymentStatisticsAuthorizationTest extends AuthorizationTest {
     firstDeploymentId = createDeployment("first", "org/camunda/bpm/engine/test/api/authorization/oneIncidentProcess.bpmn20.xml").getId();
     secondDeploymentId = createDeployment("second", "org/camunda/bpm/engine/test/api/authorization/timerStartEventProcess.bpmn20.xml").getId();
     thirdDeploymentId = createDeployment("third", "org/camunda/bpm/engine/test/api/authorization/timerBoundaryEventProcess.bpmn20.xml").getId();
+    super.setUp();
   }
 
   @After

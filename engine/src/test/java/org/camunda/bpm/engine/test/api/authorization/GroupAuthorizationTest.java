@@ -67,6 +67,8 @@ public class GroupAuthorizationTest extends AuthorizationTest {
 
     identityService.setAuthentication(testUserId, testGroupIds);
     processEngineConfiguration.setAuthorizationEnabled(true);
+
+    super.setUp();
   }
 
 

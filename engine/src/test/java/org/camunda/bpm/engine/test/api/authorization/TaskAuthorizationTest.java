@@ -91,7 +91,7 @@ public class TaskAuthorizationTest extends AuthorizationTest {
         "org/camunda/bpm/engine/test/api/authorization/oneTaskProcess.bpmn20.xml",
         "org/camunda/bpm/engine/test/api/authorization/candidateUsersProcess.bpmn20.xml",
         "org/camunda/bpm/engine/test/api/authorization/candidateGroupsProcess.bpmn20.xml");
-
+    super.setUp();
   }
 
   @After
