@@ -71,7 +71,7 @@ public abstract class AuthorizationTest extends PluggableProcessEngineTest {
   protected static final String VARIABLE_VALUE = "aVariableValue";
 
   @Before
-  public void authorizationTestSetUp() throws Exception {
+  public void setUp() throws Exception {
     user = createUser(userId);
     group = createGroup(groupId);
 
