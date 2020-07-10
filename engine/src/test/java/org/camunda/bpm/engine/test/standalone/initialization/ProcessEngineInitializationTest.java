@@ -20,6 +20,7 @@ import org.camunda.bpm.engine.ProcessEngineConfiguration;
 import org.camunda.bpm.engine.impl.persistence.entity.JobEntity;
 import org.camunda.bpm.engine.impl.test.PvmTestCase;
 import org.camunda.bpm.engine.test.util.ProcessEngineProvider;
+import org.junit.Test;
 
 /**
  * @author Tom Baeyens
@@ -40,6 +41,7 @@ public class ProcessEngineInitializationTest extends PvmTestCase {
     }
   }
 
+  @Test
   public void testDefaultRetries() {
     ProcessEngineConfiguration configuration = ProcessEngineProvider
         .createConfigurationFromResource("org/camunda/bpm/engine/test/standalone/initialization/defaultretries.camunda.cfg.xml");
@@ -47,6 +49,7 @@ public class ProcessEngineInitializationTest extends PvmTestCase {
     assertEquals(JobEntity.DEFAULT_RETRIES, configuration.getDefaultNumberOfRetries());
   }
 
+  @Test
   public void testCustomDefaultRetries() {
     ProcessEngineConfiguration configuration = ProcessEngineProvider
         .createConfigurationFromResource("org/camunda/bpm/engine/test/standalone/initialization/customdefaultretries.camunda.cfg.xml");
